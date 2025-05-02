@@ -1,0 +1,32 @@
+/* src/components/Navbar.module.css */
+.nav {
+    background-color: #2563eb; /* bg-blue-600 */
+    color: white;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .navContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .navLink {
+    color: white;
+    text-decoration: none;
+    margin-left: 1rem;
+  }
+  .navLink:hover {
+    text-decoration: underline;
+  }
+  .logoutButton {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-left: 1rem;
+  }
+  .logoutButton:hover {
+    text-decoration: underline;
+  }
