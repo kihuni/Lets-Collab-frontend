@@ -25,8 +25,8 @@ Frontend for the **Lets-Collab** project, a collaborative platform built for the
 
 1. **Clone the Repository**:
    ```
-   git clone https://github.com/<your-username>/collabsphere-frontend.git
-   cd collabsphere-frontend
+   git clone https://github.com/<your-username>/Lets-Collab-frontend.git
+   cd Lets-Collab-frontend
    ```
 
 Install Dependencies:
