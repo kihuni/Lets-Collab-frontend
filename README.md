@@ -1,6 +1,6 @@
-# CollabSphere Frontend
+# Lets-Collab Frontend
 
-Frontend for the **CollabSphere** project, a collaborative platform built for the 2025 DEV Challenge hackathon. This React-based frontend provides a user-friendly interface for authentication, project/task management, and access control, styled with CSS Modules for a clean and professional look.
+Frontend for the **Lets-Collab** project, a collaborative platform built for the 2025 DEV Challenge hackathon. This React-based frontend provides a user-friendly interface for authentication, project/task management, and access control, styled with CSS Modules for a clean and professional look.
 
 ## Tech Stack
 - **React**: Frontend framework for building the UI.
@@ -19,7 +19,7 @@ Frontend for the **CollabSphere** project, a collaborative platform built for th
 ## Prerequisites
 - Node.js (v18.x.x recommended; v20.17.0 used in development)
 - npm (v9.x.x or higher)
-- Backend server running at `http://localhost:8000` (see [CollabSphere Backend](#backend-repository))
+- Backend server running at `http://localhost:8000` (see [Lets-Collab Backend](#backend-repository))
 
 ## Setup Instructions
 
@@ -46,7 +46,7 @@ Create a .env file in the root directory:
 
 VITE_API_URL=http://localhost:8000
 
-Update the API URL for production (e.g., https://collabsphere-backend.vercel.app).
+Update the API URL for production (e.g., https://Lets-Collab-backend.vercel.app).
 
 Usage
 Ensure the backend server is running (see Backend Setup (#backend-repository)).
@@ -84,13 +84,13 @@ lets-collab-frontend/
 ```
 Deployment
 The frontend is deployed on Vercel:
-https://collabsphere-frontend.vercel.app
+https://Lets-Collab-frontend.vercel.app
 To deploy on Vercel:
 Push the repository to GitHub.
 
 Import the repository into Vercel.
 
-Set the environment variable VITE_API_URL to the backend URL (e.g., https://collabsphere-backend.vercel.app).
+Set the environment variable VITE_API_URL to the backend URL (e.g., https://Lets-Collab-backend.vercel.app).
 
 Deploy the app.
 
