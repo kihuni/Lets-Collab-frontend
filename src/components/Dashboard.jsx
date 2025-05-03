@@ -1,14 +1,14 @@
 // src/components/Dashboard.js
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import  './Dashboard.module.css';
+import styles from './Dashboard.module.css';
 
 function Dashboard({ token }) {
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [newProjectName, setNewProjectName] = useState('');
   const [newTaskTitle, setNewTaskTitle] = useState('');
-  const [selectedProject, setSelectedProject] = useState('');
+  const [selectedProjectId, setSelectedProjectId] = useState('');
   const [error, setError] = useState('');
 
   const fetchProjects = useCallback(async () => {
@@ -17,10 +17,10 @@ function Dashboard({ token }) {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjects(response.data);
-    } catch {
-      setError('Failed to fetch projects. Check permissions.');
+    } catch (err) {
+      setError(`Failed to fetch projects: ${err.message}`); // Use err.message for specificity
     }
-  }, [token]); // Dependencies: token
+  }, [token]);
 
   const fetchTasks = useCallback(async () => {
     try {
@@ -28,43 +28,49 @@ function Dashboard({ token }) {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(response.data);
-    } catch {
-      setError('Failed to fetch tasks. Check permissions.');
+    } catch (err) {
+      setError(`Failed to fetch tasks: ${err.message}`); // Use err.message
     }
-  }, [token]); // Dependencies: token
+  }, [token]);
 
   const createProject = async (e) => {
     e.preventDefault();
+    if (!newProjectName.trim()) {
+      setError('Project name cannot be empty.');
+      return;
+    }
     try {
       await axios.post(
         'http://localhost:8000/api/projects/',
-        { name: newProjectName, owner: 1 }, // Assuming admin user ID is 1
+        { name: newProjectName, owner: 1 },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setNewProjectName('');
+      setError(''); // Clear error on success
       fetchProjects();
-    } catch {
-      setError('Failed to create project. Check permissions.');
+    } catch (err) {
+      setError(`Failed to create project: ${err.message}`); // Use err.message
     }
   };
 
   const createTask = async (e) => {
     e.preventDefault();
-    if (!selectedProject) {
-      setError('Please select a project.');
+    if (!selectedProjectId || !newTaskTitle.trim()) {
+      setError('Please select a project and enter a task title.');
       return;
     }
     try {
       await axios.post(
         'http://localhost:8000/api/tasks/',
-        { project: selectedProject, title: newTaskTitle },
+        { project: selectedProjectId, title: newTaskTitle },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setNewTaskTitle('');
-      setSelectedProject('');
+      setSelectedProjectId('');
+      setError(''); // Clear error on success
       fetchTasks();
-    } catch {
-      setError('Failed to create task. Check permissions.');
+    } catch (err) {
+      setError(`Failed to create task: ${err.message}`); // Use err.message
     }
   };
 
@@ -74,35 +80,58 @@ function Dashboard({ token }) {
   }, [fetchProjects, fetchTasks]);
 
   return (
-    <div className="container mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6">Dashboard</h2>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+    <div className={styles.container}>
+      <h2 className={styles.title}>Dashboard</h2>
+      {error && <p className={styles.error}>{error}</p>}
 
-      {/* Create Project */}
-      <div className="mb-8 bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-xl font-semibold mb-4">Create Project</h3>
-        <form onSubmit={createProject} className="flex space-x-4">
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>Projects</h3>
+        {projects.length ? (
+          <ul className={styles.list}>
+            {projects.map((project) => (
+              <li key={project.id} className={styles.listItem}>
+                {project.name}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.noItems}>No projects available.</p>
+        )}
+        <form onSubmit={createProject} className={styles.form}>
           <input
             type="text"
             value={newProjectName}
             onChange={(e) => setNewProjectName(e.target.value)}
-            placeholder="Project Name"
-            className="flex-1 p-2 border rounded-md"
+            placeholder="New project name"
+            className={styles.input}
+            required
           />
-          <button type="submit" className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">
-            Create
-          </button>
+          <button type="submit" className={styles.button}>Create Project</button>
         </form>
       </div>
 
-      {/* Create Task */}
-      <div className="mb-8 bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-xl font-semibold mb-4">Create Task</h3>
-        <form onSubmit={createTask} className="flex space-x-4">
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>Tasks</h3>
+        {tasks.length ? (
+          <ul className={styles.list}>
+            {tasks.map((task) => (
+              <li key={task.id} className={styles.listItem}>
+                {task.title} (Project ID: {task.project})
+                {task.access_expires && new Date(task.access_expires) < new Date() && (
+                  <span className={styles.expired}> (Expired)</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.noItems}>No tasks available.</p>
+        )}
+        <form onSubmit={createTask} className={styles.form}>
           <select
-            value={selectedProject}
-            onChange={(e) => setSelectedProject(e.target.value)}
-            className="p-2 border rounded-md"
+            value={selectedProjectId}
+            onChange={(e) => setSelectedProjectId(e.target.value)}
+            className={styles.input}
+            required
           >
             <option value="">Select Project</option>
             {projects.map((project) => (
@@ -115,50 +144,12 @@ function Dashboard({ token }) {
             type="text"
             value={newTaskTitle}
             onChange={(e) => setNewTaskTitle(e.target.value)}
-            placeholder="Task Title"
-            className="flex-1 p-2 border rounded-md"
+            placeholder="New task title"
+            className={styles.input}
+            required
           />
-          <button type="submit" className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">
-            Create
-          </button>
+          <button type="submit" className={styles.button}>Create Task</button>
         </form>
-      </div>
-
-      {/* Projects List */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold mb-4">Projects</h3>
-        {projects.length ? (
-          <ul className="space-y-2">
-            {projects.map((project) => (
-              <li key={project.id} className="bg-white p-4 rounded-lg shadow-md">
-                {project.name} (Created: {new Date(project.created_at).toLocaleDateString()})
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No projects available.</p>
-        )}
-      </div>
-
-      {/* Tasks List */}
-      <div>
-        <h3 className="text-xl font-semibold mb-4">Tasks</h3>
-        {tasks.length ? (
-          <ul className="space-y-2">
-            {tasks.map((task) => (
-              <li key={task.id} className="bg-white p-4 rounded-lg shadow-md">
-                {task.title} (Project ID: {task.project})
-                {task.access_expires && (
-                  <span className="ml-2 text-sm text-gray-500">
-                    (Expires: {new Date(task.access_expires).toLocaleDateString()})
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No tasks available.</p>
-        )}
       </div>
     </div>
   );
