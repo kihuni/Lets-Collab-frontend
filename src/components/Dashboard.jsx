@@ -13,7 +13,7 @@ function Dashboard({ token }) {
 
   const fetchProjects = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/projects/', {
+      const response = await axios.get('https://lets-collab-api.onrender.com/api/projects/', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjects(response.data);
@@ -24,7 +24,7 @@ function Dashboard({ token }) {
 
   const fetchTasks = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/tasks/', {
+      const response = await axios.get('https://lets-collab-api.onrender.com/api/tasks/', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(response.data);
@@ -41,7 +41,7 @@ function Dashboard({ token }) {
     }
     try {
       await axios.post(
-        'http://localhost:8000/api/projects/',
+        'https://lets-collab-api.onrender.com/api/projects/',
         { name: newProjectName, owner: 1 },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -61,7 +61,7 @@ function Dashboard({ token }) {
     }
     try {
       await axios.post(
-        'http://localhost:8000/api/tasks/',
+        'https://lets-collab-api.onrender.com/api/tasks/',
         { project: selectedProjectId, title: newTaskTitle },
         { headers: { Authorization: `Bearer ${token}` } }
       );

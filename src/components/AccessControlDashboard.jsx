@@ -10,7 +10,7 @@ function AccessControlDashboard({ token }) {
 
   const fetchAuditLogs = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/audit_logs/', {
+      const response = await axios.get('https://lets-collab-api.onrender.com/api/audit_logs/', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAuditLogs(response.data);
@@ -28,7 +28,7 @@ function AccessControlDashboard({ token }) {
 
   const fetchPermissions = useCallback(async () => {
     try {
-      await axios.get('http://localhost:8000/api/permissions/', {
+      await axios.get('https://lets-collab-api.onrender.com/api/permissions/', {
         headers: { Authorization: `Bearer ${token}` },
       });
       // Permissions are currently hardcoded, endpoint call kept for future use
@@ -41,7 +41,7 @@ function AccessControlDashboard({ token }) {
   const _createPermission = async (role, resource, action) => {
     try {
       await axios.post(
-        'http://localhost:8000/api/permissions/',
+        'https://lets-collab-api.onrender.com/api/permissions/',
         { role, resource, action },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -54,7 +54,7 @@ function AccessControlDashboard({ token }) {
   // Keeping this function for future use when permissions are implemented
   const _deletePermission = async (permissionId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/permissions/${permissionId}/`, {
+      await axios.delete(`https://lets-collab-api.onrender.com/api/permissions/${permissionId}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchPermissions();
