@@ -30,14 +30,15 @@ Frontend for the **Lets-Collab** project, a collaborative platform built for the
    ```
 
 Install Dependencies:
-bash
 
+```
 npm install
-
+```
 Start the Development Server:
-bash
+```
 
 npm run dev
+```
 
 The app will be available at http://localhost:5173.
 
@@ -54,9 +55,10 @@ Ensure the backend server is running (see Backend Setup (#backend-repository)).
 Open http://localhost:5173 in your browser.
 
 Log in with one of the test users:
-Admin: Username: admin, Password: 2025DEVChallenge
 
-User: Username: newuser, Password: 2025DEVChallenge
+- Admin: Username: admin, Password: 2025DEVChallenge
+
+- User: Username: newuser, Password: 2025DEVChallenge
 
 Explore the Dashboard to create/view projects and tasks.
 
@@ -83,9 +85,12 @@ lets-collab-frontend/
 └── README.md               # Project documentation
 ```
 Deployment
+
 The frontend is deployed on Vercel:
+
 https://Lets-Collab-frontend.vercel.app
 To deploy on Vercel:
+
 Push the repository to GitHub.
 
 Import the repository into Vercel.
