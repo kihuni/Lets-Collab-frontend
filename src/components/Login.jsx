@@ -1,8 +1,7 @@
 // src/components/Login.js
 import { useState } from 'react';
 import axios from 'axios';
-import './Login.module.css';
-
+import styles from './Login.module.css'; // Import styles as a variable
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -18,40 +17,40 @@ function Login({ onLogin }) {
       });
       onLogin(response.data.access);
     } catch {
-        setError('Login failed. Check your credentials.');
+      setError('Login failed. Check your credentials.');
     }
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-md mt-10 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center">Login to CollabSphere</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-gray-700">Username</label>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Login to Let's-Collab</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Username</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className={styles.input}
             placeholder="e.g., admin"
           />
         </div>
-        <div>
-          <label className="block text-gray-700">Password</label>
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className={styles.input}
             placeholder="e.g., 2025DEVChallenge"
           />
         </div>
-        {error && <p className="text-red-500">{error}</p>}
-        <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">
+        {error && <p className={styles.error}>{error}</p>}
+        <button type="submit" className={styles.button}>
           Login
         </button>
       </form>
-      <p className="mt-4 text-gray-600 text-center">
+      <p className={styles.info}>
         Test users: <br />
         - Admin: admin / 2025DEVChallenge <br />
         - User: newuser / 2025DEVChallenge
